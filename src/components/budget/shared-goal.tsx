@@ -39,7 +39,7 @@ export function SharedGoal() {
             byMember[m].done > 0 ? (
               <div
                 key={m}
-                className={cn("h-full rounded-full transition-[width] duration-700", m === "ostap" ? "bg-ostap" : "stripes")}
+                className={cn("h-full rounded-full transition-[width] duration-500 ease-(--ease-out-strong)", m === "ostap" ? "bg-ostap" : "stripes")}
                 style={{ width: `${(byMember[m].done / denom) * 100}%` }}
               />
             ) : null,
@@ -55,10 +55,10 @@ export function SharedGoal() {
             ))}
           </ul>
           {settle.kind === "transfer" && (
-            <p className="flex items-center gap-1.5">
+            <p className="flex items-center gap-1.5" title="Щоб спільні витрати й банки вийшли пропорційно доходу">
               <Avatar member={settle.from} size="xs" straight />→<Avatar member={settle.to} size="xs" straight />
-              <span className="font-medium text-foreground tabular-nums">{formatUah(settle.amount)}</span>
-              за спільне, щоб вийшло пропорційно доходу
+              <span className="font-medium whitespace-nowrap text-foreground tabular-nums">{formatUah(settle.amount)}</span>
+              <span className="whitespace-nowrap">за спільне</span>
             </p>
           )}
         </div>

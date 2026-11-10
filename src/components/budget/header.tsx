@@ -26,7 +26,7 @@ export function Header({ fxIsDefault }: { fxIsDefault: boolean }) {
         <span className="font-semibold tracking-tight">Скарбничка</span>
       </div>
 
-      <nav className="depth-surface ml-auto flex items-center gap-0.5 rounded-xl p-1 md:ml-6" aria-label="Місяць">
+      <nav className="depth-surface order-3 flex flex-1 items-center justify-between gap-0.5 rounded-xl p-0.5 md:order-none md:ml-6 md:flex-none" aria-label="Місяць">
         <Link
           href={`/${addMonths(month, -1)}`}
           aria-label="Попередній місяць"
@@ -51,9 +51,11 @@ export function Header({ fxIsDefault }: { fxIsDefault: boolean }) {
         </Link>
       </nav>
 
-      <FxChip fxIsDefault={fxIsDefault} />
+      <div className="order-4 md:order-none">
+        <FxChip fxIsDefault={fxIsDefault} />
+      </div>
 
-      <Button size="lg" className="ml-auto" onClick={() => openEntry()}>
+      <Button size="lg" className="order-2 ml-auto md:order-none" onClick={() => openEntry()}>
         <Plus data-icon="inline-start" /> Внесок
       </Button>
     </header>
@@ -82,7 +84,7 @@ function FxChip({ fxIsDefault }: { fxIsDefault: boolean }) {
         render={
           <button
             type="button"
-            className="depth-surface flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm tabular-nums transition hover:brightness-[0.985]"
+            className="depth-surface pressable flex h-9 items-center gap-1.5 rounded-[10px] px-3 text-sm tabular-nums hover:brightness-[0.985]"
           />
         }
       >

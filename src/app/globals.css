@@ -138,34 +138,35 @@
   }
 }
 /* ------------------------------------------------------------------
- * Depth system — "shadows as borders" (Campsite / Derek Briggs),
- * adapted to a light theme:
- *  1. hairline dark ring that "cuts" the element into the surface
- *  2. 1px inner highlight from all sides (environment reflections)
- *  3. 1px inner top highlight (primary light source from above)
+ * Depth system — Campsite / Derek Briggs, adapted to a light theme.
+ * Raised controls use a REAL semi-transparent border + background-clip:
+ * padding-box (never a transparent border: the page would show through
+ * as a white ring between fill and outline).
+ *  1. dark hairline border that "cuts" the element into the surface
+ *  2. 1px inner highlight on all sides (environment reflections)
+ *  3. 1px inner top highlight (light source from above)
  *  4. ≥3 stacked drop shadows for natural depth
  *  5. drop-shadow on text/icons for contrast (dark elements)
  *  6. a gradient subtle enough that you can't see it
  * ------------------------------------------------------------------ */
 :root {
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
   --depth-surface:
-    0 0 0 1px rgb(0 0 0 / 0.075),
     inset 0 1px 0 rgb(255 255 255 / 1),
-    0 1px 1px rgb(0 0 0 / 0.04),
-    0 2px 4px -1px rgb(0 0 0 / 0.05),
-    0 6px 12px -6px rgb(0 0 0 / 0.07);
-  --depth-surface-pressed:
-    0 0 0 1px rgb(0 0 0 / 0.09),
-    inset 0 1px 2px rgb(0 0 0 / 0.06);
+    0 1px 1px -0.5px rgb(0 0 0 / 0.06),
+    0 2px 4px -2px rgb(0 0 0 / 0.06),
+    0 6px 12px -6px rgb(0 0 0 / 0.06);
+  --depth-surface-pressed: inset 0 1px 2px rgb(0 0 0 / 0.06);
   --depth-ink:
-    0 0 0 0.5px rgb(0 0 0 / 0.9),
-    inset 0 0 0 1px rgb(255 255 255 / 0.06),
-    inset 0 1px 0 rgb(255 255 255 / 0.18),
-    0 1px 1px rgb(0 0 0 / 0.14),
-    0 2px 4px -1px rgb(0 0 0 / 0.18),
-    0 8px 16px -8px rgb(0 0 0 / 0.3);
+    inset 0 0 0 1px rgb(255 255 255 / 0.05),
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 1px 1px -0.5px rgb(0 0 0 / 0.24),
+    0 3px 6px -2px rgb(0 0 0 / 0.18),
+    0 10px 18px -8px rgb(0 0 0 / 0.22);
   --depth-ink-pressed:
-    0 0 0 0.5px rgb(0 0 0 / 0.9),
+    inset 0 0 0 1px rgb(255 255 255 / 0.04),
     inset 0 1px 2px rgb(0 0 0 / 0.5);
   --depth-card:
     0 0 0 1px rgb(0 0 0 / 0.06),
@@ -177,15 +178,20 @@
 }
 
 @utility depth-surface {
+  border: 1px solid rgb(0 0 0 / 0.09);
+  border-bottom-color: rgb(0 0 0 / 0.15);
+  background-clip: padding-box;
   background-image: linear-gradient(to bottom, #ffffff, #fbfbfa);
   box-shadow: var(--depth-surface);
 }
 @utility depth-ink {
-  background-image: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  border: 1px solid rgb(0 0 0 / 0.92);
+  background-clip: padding-box;
+  background-image: linear-gradient(to bottom, #2b2b2b, #1b1b1b);
   box-shadow: var(--depth-ink);
-  text-shadow: 0 1px 0 rgb(0 0 0 / 0.45);
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.5);
   & svg {
-    filter: drop-shadow(0 1px 0 rgb(0 0 0 / 0.45));
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.5));
   }
 }
 @utility depth-card {
@@ -195,6 +201,17 @@
 @utility depth-well {
   background-color: oklch(0.965 0.002 95);
   box-shadow: var(--depth-well);
+}
+/* Press feedback for anything tappable (Emil: scale 0.97, 160ms ease-out). */
+@utility pressable {
+  transition-property: scale, transform, box-shadow, filter, background-color, opacity;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out-strong);
+  touch-action: manipulation;
+  user-select: none;
+  &:active:not(:disabled) {
+    scale: 0.97;
+  }
 }
 @utility tilt-l {
   rotate: -4deg;
@@ -209,4 +226,16 @@
     var(--olena) 0 2px,
     color-mix(in oklch, var(--olena) 55%, white) 2px 4px
   );
+}
+
+/* Mobile baseline (mobile-native skill). */
+html {
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
 }

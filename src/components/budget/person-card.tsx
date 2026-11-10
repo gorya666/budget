@@ -30,8 +30,11 @@ export function PersonCard({ member }: { member: MemberId }) {
           </p>
           <div className="depth-well mt-2.5 h-1.5 w-full overflow-hidden rounded-full">
             <div
-              className={cn("h-full rounded-full transition-[width] duration-700", member === "ostap" ? "bg-ostap" : "stripes")}
-              style={{ width: `${pct}%` }}
+              className={cn(
+                "h-full origin-left rounded-full transition-transform duration-500 ease-(--ease-out-strong)",
+                member === "ostap" ? "bg-ostap" : "stripes",
+              )}
+              style={{ transform: `scaleX(${pct / 100})` }}
             />
           </div>
           {override && <p className="mt-2 text-xs text-muted-foreground">Цього місяця менше: {override.note.toLowerCase()}</p>}
@@ -52,20 +55,20 @@ function Row({ item }: { item: ItemProgress }) {
   const done = item.status === "done"
 
   return (
-    <li className="flex items-center gap-3 rounded-2xl px-3 py-2 transition-colors hover:bg-black/[0.025]" data-testid={`item-${item.id}`}>
+    <li className="flex items-center gap-3 rounded-2xl px-3 py-2 transition-colors duration-150 hover:bg-black/[0.025]" data-testid={`item-${item.id}`}>
       <button
         type="button"
         disabled={done || pending}
         onClick={() => closeItem(item)}
         aria-label={done ? `${item.name}: закрито` : `Закрити ${item.name}: внести ${formatUah(item.left)}`}
         title={done ? "Закрито" : `Внести залишок ${formatUah(item.left)}`}
-        className="rounded-full outline-none transition-transform focus-visible:ring-3 focus-visible:ring-ring/50 enabled:cursor-pointer enabled:hover:scale-110"
+        className="pressable rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50 enabled:cursor-pointer"
       >
         <Ring value={ratio} member={item.member} size={28} />
       </button>
       <button
         type="button"
-        className="flex min-w-0 flex-1 items-baseline justify-between gap-3 py-1 text-left"
+        className="pressable flex min-w-0 flex-1 items-baseline justify-between gap-3 py-1 text-left"
         onClick={() => openEntry({ member: item.member, itemKey: item.key })}
         title={item.note}
       >

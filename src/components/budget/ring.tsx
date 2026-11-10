@@ -2,7 +2,7 @@
 
 import { cn } from "cn"
 import { Check } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import type { MemberId } from "@/lib/budget/config"
 
 /** Progress ring that doubles as a todo checkbox. */
@@ -18,6 +18,7 @@ export function Ring({
   className?: string
 }) {
   const done = value >= 1
+  const reduce = useReducedMotion()
   const r = (size - 4) / 2
   const c = 2 * Math.PI * r
   const color = member === "ostap" ? "var(--ostap)" : "var(--olena)"
@@ -36,17 +37,17 @@ export function Ring({
           strokeDasharray={c}
           initial={false}
           animate={{ strokeDashoffset: c * (1 - Math.min(1, Math.max(0, value))) }}
-          transition={{ type: "spring", stiffness: 140, damping: 20 }}
+          transition={reduce ? { duration: 0 } : { type: "spring", duration: 0.5, bounce: 0 }}
         />
       </svg>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {done && (
           <motion.span
             key="done"
-            initial={{ scale: 0.4, rotate: -30, opacity: 0 }}
+            initial={reduce ? false : { scale: 0.8, rotate: -20, opacity: 0 }}
             animate={{ scale: 1, rotate: -6, opacity: 1 }}
-            exit={{ scale: 0.4, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 500, damping: 18 }}
+            exit={{ scale: 0.9, opacity: 0, transition: { duration: 0.12 } }}
+            transition={{ type: "spring", duration: 0.35, bounce: 0.3 }}
             className={cn(
               "absolute inset-0 grid place-items-center rounded-full",
               member === "ostap" ? "depth-ink text-white" : "depth-surface text-foreground",

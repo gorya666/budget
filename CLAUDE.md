@@ -33,8 +33,13 @@ with one or more contributions (e.g. from the 7th and 22nd paychecks).
   (3 savings goals, «Банки», «Спільні витрати»). Entry history lives in the entry dialog.
   Before adding UI, check the number isn't already visible elsewhere.
 - Light, black & white, playful: tilted avatars/badges (`tilt-l`, `tilt-r`).
-- Depth via `depth-*` utilities in `globals.css` (Campsite "shadows as borders");
-  never plain `border` on raised elements. Buttons: `default` = ink, `outline` = surface.
+- Depth via `depth-*` utilities in `globals.css` (Campsite technique). Raised controls
+  (`depth-ink`, `depth-surface`) use a REAL semi-transparent border + `background-clip:
+  padding-box` — never a transparent border with padding-box (page shows through as a
+  white ring). Cards/wells use shadow rings. Buttons: `default` = ink, `outline` = surface.
+- Motion follows `.agents/skills/emil-design-eng`: anything tappable gets `pressable`
+  (scale 0.97 on :active, 160ms strong ease-out); animate only transform/opacity;
+  no animation on page load; respect reduced motion. Mobile rules: `.agents/skills/mobile-native`.
 - Series identity: Ostap = `--ostap` (ink, solid), Lena = `--olena` (gray) + `stripes`
   texture / dashed line. Always pair with a legend or label — never color alone.
 - shadcn on **base-ui** (`style: base-nova`), `cn` from the `cn` package.

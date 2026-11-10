@@ -75,8 +75,8 @@ export function EntryDialog({
                 aria-pressed={member === m}
                 onClick={() => setMember(m)}
                 className={cn(
-                  "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-                  member === m ? "depth-surface" : "text-muted-foreground opacity-60 hover:opacity-100",
+                  "pressable flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium",
+                  member === m ? "depth-surface" : "border border-transparent text-muted-foreground opacity-60 hover:opacity-100",
                 )}
               >
                 <Avatar member={m} size="sm" straight={member !== m} />
@@ -94,8 +94,8 @@ export function EntryDialog({
                 aria-pressed={itemKey === i.key}
                 onClick={() => setItemKey(i.key)}
                 className={cn(
-                  "rounded-lg px-2.5 py-1.5 text-sm transition",
-                  itemKey === i.key ? "depth-ink text-white" : "bg-black/[0.04] hover:bg-black/[0.07]",
+                  "pressable rounded-lg px-2.5 py-1.5 text-sm",
+                  itemKey === i.key ? "depth-ink text-white" : "border border-transparent bg-black/[0.04] hover:bg-black/[0.07]",
                 )}
               >
                 <span className="mr-1">{i.emoji}</span>
@@ -119,7 +119,7 @@ export function EntryDialog({
               <button
                 type="button"
                 onClick={() => setAmount(String(selected.left / 100))}
-                className="self-start rounded-lg bg-black/[0.04] px-2.5 py-1 text-xs tabular-nums hover:bg-black/[0.07]"
+                className="pressable self-start rounded-lg bg-black/[0.04] px-2.5 py-1 text-xs tabular-nums hover:bg-black/[0.07]"
               >
                 Весь залишок · {formatUah(selected.left)}
               </button>
