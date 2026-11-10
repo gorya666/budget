@@ -1,0 +1,111 @@
+"use client"
+
+import { createContext, use, useCallback, useMemo, useState, useTransition } from "react"
+import { toast } from "sonner"
+import { addEntry, deleteEntry } from "@/app/actions"
+import type { MemberId } from "@/lib/budget/config"
+import { formatUah } from "@/lib/budget/money"
+import { defaultPaidOn } from "@/lib/budget/month"
+import type { MonthPlan } from "@/lib/budget/plan"
+import type { Entry, ItemProgress, MonthProgress, Task } from "@/lib/budget/progress"
+import { EntryDialog, type EntryPrefill } from "./entry-dialog"
+import { Header } from "./header"
+import { Hero } from "./hero"
+import { PersonColumn } from "./person-column"
+import { SharedColumn } from "./shared-column"
+import { TimelineChart } from "./timeline-chart"
+
+type Ctx = {
+  month: string
+  plan: MonthPlan
+  progress: MonthProgress
+  openEntry: (prefill?: EntryPrefill) => void
+  closeItem: (item: ItemProgress) => void
+  removeEntry: (e: Entry) => void
+  pending: boolean
+}
+
+const DashboardContext = createContext<Ctx | null>(null)
+export function useDashboard() {
+  const ctx = use(DashboardContext)
+  if (!ctx) throw new Error("useDashboard outside Dashboard")
+  return ctx
+}
+
+export function Dashboard({
+  month,
+  plan,
+  progress,
+  tasks,
+  fxIsDefault,
+}: {
+  month: string
+  plan: MonthPlan
+  progress: MonthProgress
+  tasks: Task[]
+  fxIsDefault: boolean
+}) {
+  const [dialog, setDialog] = useState<{ open: boolean; prefill?: EntryPrefill; n: number }>({ open: false, n: 0 })
+  const [pending, startTransition] = useTransition()
+
+  const openEntry = useCallback((prefill?: EntryPrefill) => setDialog((d) => ({ open: true, prefill, n: d.n + 1 })), [])
+
+  const removeEntry = useCallback(
+    (e: Entry) =>
+      startTransition(async () => {
+        await deleteEntry({ id: e.id, month })
+        toast(`Видалено ${formatUah(e.amount)}`, {
+          action: {
+            label: "Повернути",
+            onClick: () => startTransition(async () => void (await addEntry({ ...e, note: e.note }))),
+          },
+        })
+      }),
+    [month],
+  )
+
+  const closeItem = useCallback(
+    (item: ItemProgress) => {
+      if (item.left <= 0) return
+      startTransition(async () => {
+        const row = await addEntry({
+          month,
+          member: item.member,
+          itemKey: item.key,
+          amount: item.left,
+          paidOn: defaultPaidOn(month),
+          note: null,
+        })
+        toast(`${item.emoji ?? "✓"} ${item.name}: +${formatUah(row.amount)}`, {
+          action: { label: "Скасувати", onClick: () => startTransition(async () => deleteEntry({ id: row.id, month })) },
+        })
+      })
+    },
+    [month],
+  )
+
+  const ctx = useMemo<Ctx>(
+    () => ({ month, plan, progress, openEntry, closeItem, removeEntry, pending }),
+    [month, plan, progress, openEntry, closeItem, removeEntry, pending],
+  )
+
+  const people: MemberId[] = ["ostap", "olena"]
+
+  return (
+    <DashboardContext value={ctx}>
+      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-5 px-4 pt-4 pb-24 md:px-6 md:pt-6">
+        <Header fxIsDefault={fxIsDefault} />
+        <section className="grid gap-5 lg:grid-cols-12">
+          <Hero className="lg:col-span-5" />
+          <TimelineChart className="lg:col-span-7" />
+        </section>
+        <section className="grid items-start gap-5 lg:grid-cols-[1fr_1.05fr_1fr]">
+          <PersonColumn member={people[0]} />
+          <SharedColumn tasks={tasks} className="order-last lg:order-none" />
+          <PersonColumn member={people[1]} />
+        </section>
+      </div>
+      <EntryDialog key={dialog.n} open={dialog.open} prefill={dialog.prefill} onOpenChange={(open) => setDialog((d) => ({ ...d, open }))} />
+    </DashboardContext>
+  )
+}
