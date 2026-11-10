@@ -1,0 +1,327 @@
+{
+  "_source": "data/source/budget-sheet-2026-10.xlsx (values computed by the spreadsheet)",
+  "inputs": {
+    "fxUsdUah": 44.7,
+    "income": {
+      "ostap": {
+        "usd": 5700.0,
+        "savingsRate": 0.37
+      },
+      "olena": {
+        "usd": 3650.0,
+        "savingsRate": 0.37
+      }
+    },
+    "savingsSplit": {
+      "cushion": 0.2,
+      "apartment": 0.5,
+      "pension": 0.3
+    },
+    "sharedItems": [
+      {
+        "payer": "Олена",
+        "name": "Продукти",
+        "amount": 30000.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Олена",
+        "name": "Прибиральниця",
+        "amount": 6900,
+        "currency": "₴",
+        "note": "3 рази × 2 300"
+      },
+      {
+        "payer": "Олена",
+        "name": "Коти",
+        "amount": 5700.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Олена",
+        "name": "Дім, побут",
+        "amount": 2500.0,
+        "currency": "₴",
+        "note": "Хімія, дрібниці"
+      },
+      {
+        "payer": "Остап",
+        "name": "Оренда",
+        "amount": 36230.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Остап",
+        "name": "Кафе разом",
+        "amount": 12000.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Остап",
+        "name": "Машина: пальне",
+        "amount": 1000.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Остап",
+        "name": "Машина: страховка",
+        "amount": 3333.33,
+        "currency": "₴",
+        "note": "40 000 на рік"
+      },
+      {
+        "payer": "Остап",
+        "name": "Машина: обслуговування",
+        "amount": 2916.67,
+        "currency": "₴",
+        "note": "35 000 на рік"
+      },
+      {
+        "payer": "Остап",
+        "name": "Комуналка",
+        "amount": 5000.0,
+        "currency": "₴",
+        "note": "Взимку може бути більше"
+      },
+      {
+        "payer": "Остап",
+        "name": "Інтернет",
+        "amount": 500.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Остап",
+        "name": "Навчання (трейдинг-спільнота)",
+        "amount": 3600.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Остап",
+        "name": "Megogo, YouTube",
+        "amount": 850.0,
+        "currency": "₴",
+        "note": null
+      },
+      {
+        "payer": "Банка",
+        "name": "Подорожі",
+        "amount": 250,
+        "currency": "$",
+        "note": "$3 000 на рік"
+      },
+      {
+        "payer": "Банка",
+        "name": "Для дому",
+        "amount": 120.0,
+        "currency": "$",
+        "note": "Посуд, девайси. Залишок — далі або перерозподіл"
+      },
+      {
+        "payer": "Банка",
+        "name": "Непередбачене",
+        "amount": 6000.0,
+        "currency": "₴",
+        "note": "Лише великі витрати: операції, поломки"
+      }
+    ],
+    "personalFixed": {
+      "ostap": [
+        {
+          "name": "Мама й бабуся",
+          "uah": 12000.0,
+          "note": null
+        },
+        {
+          "name": "Терапія",
+          "uah": 7200.0,
+          "note": null
+        },
+        {
+          "name": "Спорт: баскет, зал, тренер",
+          "uah": 3600.0,
+          "note": null
+        },
+        {
+          "name": "Підписки: Apple, Spotify, телефон",
+          "uah": 850.0,
+          "note": null
+        },
+        {
+          "name": "Бухгалтер",
+          "uah": 1200.0,
+          "note": null
+        },
+        {
+          "name": "Здоров'я",
+          "uah": 1000.0,
+          "note": "Частину покриває страховка"
+        }
+      ],
+      "olena": [
+        {
+          "name": "Краса, косметолог",
+          "uah": 10000.0,
+          "note": "В середньому"
+        },
+        {
+          "name": "Спорт і розваги (з тренером)",
+          "uah": 9000.0,
+          "note": null
+        },
+        {
+          "name": "Терапевт",
+          "uah": 3000.0,
+          "note": "2 рази на місяць"
+        },
+        {
+          "name": "Інше: підписки, доставки",
+          "uah": 4000.0,
+          "note": null
+        },
+        {
+          "name": "Одяг, взуття",
+          "uah": 3650.0,
+          "note": null
+        },
+        {
+          "name": "Кафе самій",
+          "uah": 3500.0,
+          "note": null
+        },
+        {
+          "name": "Бухгалтер",
+          "uah": 1500.0,
+          "note": null
+        },
+        {
+          "name": "Здоров'я",
+          "uah": 3000.0,
+          "note": "Немає страховки"
+        },
+        {
+          "name": "Таксі",
+          "uah": 1100.0,
+          "note": null
+        },
+        {
+          "name": "Кіно, книги, мобільний",
+          "uah": 1100.0,
+          "note": null
+        }
+      ]
+    },
+    "goals": {
+      "apartmentUsd": 200000.0,
+      "saleProceedsUsd": 37000.0,
+      "countSaleProceeds": "ні",
+      "cushionMonths": 4.0,
+      "pensionIncomeUsdPerMonth": 3000.0,
+      "safeWithdrawalRate": 0.04,
+      "ovdpYield": 0.04,
+      "pensionYield": 0.05,
+      "ageOlena": 33.0,
+      "ageOstap": 31.0
+    },
+    "startBalances20261001": {
+      "cushionUsd": 7000.0,
+      "apartmentUsd": 0.0,
+      "pensionUsd": 60000.0,
+      "travelJarUah": 0.0
+    },
+    "oneOff": {
+      "olenaTaxDebtUah": 124000.0,
+      "ostapRepaysOlenaOctUah": 50000.0,
+      "cosmetologistNovUah": 5000.0
+    }
+  },
+  "expected": {
+    "incomeUah": {
+      "ostap": 254790,
+      "olena": 163155
+    },
+    "incomeShare": {
+      "ostap": 0.609626,
+      "olena": 0.390374
+    },
+    "shared": {
+      "zoneOlenaUah": 45100,
+      "zoneOstapUah": 65430,
+      "jarsUah": 22539,
+      "totalUah": 133069,
+      "mustContributeUah": {
+        "olena": 51946.72,
+        "ostap": 81122.28
+      },
+      "topUpJarsUah": {
+        "olena": 6846.72,
+        "ostap": 15692.28
+      }
+    },
+    "personal": {
+      "fixedUah": {
+        "ostap": 25850,
+        "olena": 39850
+      },
+      "savingsUah": {
+        "ostap": 94272.3,
+        "olena": 60367.35
+      },
+      "freeUah": {
+        "ostap": 53545.42,
+        "olena": 10990.93
+      },
+      "olenaTransition": {
+        "oct": {
+          "canSaveUah": 59358.28
+        },
+        "nov": {
+          "canSaveUah": 14358.28
+        }
+      }
+    },
+    "goals": {
+      "monthlySavingsUsd": 3459.5,
+      "rows": [
+        {
+          "goal": "🛟 Подушка безпеки",
+          "targetUsd": 11907.74,
+          "nowUsd": 7000,
+          "contributionUsd": 691.9,
+          "monthsToGoal": 8,
+          "eta": "2027-06"
+        },
+        {
+          "goal": "🏠 Квартира",
+          "targetUsd": 200000,
+          "nowUsd": 0,
+          "contributionUsd": 1729.75,
+          "monthsToGoal": 76,
+          "eta": "2033-02"
+        },
+        {
+          "goal": "🧓 Пенсія",
+          "targetUsd": 900000,
+          "nowUsd": 60000,
+          "contributionUsd": 1037.85,
+          "monthsToGoal": 207,
+          "eta": "2044-01"
+        },
+        {
+          "goal": "✈️ Подорожі (Банка, на рік)",
+          "targetUsd": 3000,
+          "nowUsd": 0,
+          "contributionUsd": 250,
+          "monthsToGoal": 12,
+          "eta": "2027-10"
+        }
+      ]
+    }
+  }
+}
