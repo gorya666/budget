@@ -11,9 +11,9 @@ export default async function MonthPage({ params }: PageProps<"/[month]">) {
   if (!MONTH_RE.test(month)) notFound()
 
   const db = repo()
-  const [fx, entries, tasks] = await Promise.all([db.getFx(month), db.listEntries(month), db.listTasks(month)])
+  const [fx, entries] = await Promise.all([db.getFx(month), db.listEntries(month)])
   const plan = buildMonthPlan(config, month, fx ?? config.defaultFxUsdUah)
   const progress = summarize(config, plan, entries)
 
-  return <Dashboard month={month} plan={plan} progress={progress} tasks={tasks} fxIsDefault={fx === null} />
+  return <Dashboard month={month} plan={plan} progress={progress} fxIsDefault={fx === null} />
 }

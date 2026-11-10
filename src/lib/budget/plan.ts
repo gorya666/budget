@@ -71,24 +71,26 @@ export function buildMonthPlan(cfg: BudgetConfig, month: string, fx: number = cf
     )
   }
 
-  // Jars: each member tops up their share of every jar so that the totals
-  // equal their top-up amount (proportional-to-income rule from the sheet).
-  const jarWeights = MEMBERS.map((m) => Math.max(0, topUpJarsUah[m]))
-  for (const j of cfg.jars) {
-    const parts = splitKop(toKop(toUah(j.amount, j.currency, fx)), jarWeights)
-    MEMBERS.forEach((m, i) =>
-      items.push({ key: `jar.${j.id}`, kind: "jar", member: m, name: j.name, emoji: j.emoji, note: j.note, plan: parts[i] }),
-    )
-  }
-
-  for (const z of cfg.zoneItems) {
+  // Jars and zone expenses are tracked as ONE item per person (like the
+  // sheet's «Факт» tab: "докинув у банки", "витратив на свою зону").
+  for (const m of MEMBERS) {
     items.push({
-      key: `zone.${z.id}`,
+      key: "jar.all",
+      kind: "jar",
+      member: m,
+      name: "Банки",
+      emoji: "🫙",
+      note: cfg.jars.map((j) => j.name).join(", "),
+      plan: Math.max(0, toKop(topUpJarsUah[m])),
+    })
+    items.push({
+      key: "zone.all",
       kind: "zone",
-      member: z.payer,
-      name: z.name,
-      note: z.note,
-      plan: toKop(toUah(z.amount, z.currency, fx)),
+      member: m,
+      name: "Спільні витрати",
+      emoji: "🧺",
+      note: cfg.zoneItems.filter((z) => z.payer === m).map((z) => z.name).join(", "),
+      plan: toKop(zoneUah[m]),
     })
   }
 

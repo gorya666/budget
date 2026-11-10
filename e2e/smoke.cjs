@@ -19,32 +19,27 @@ const out = process.argv[2];
   // 2) Installment via dialog: Lena, groceries, 15k on the 7th
   await page.getByRole('button', { name: 'Внесок', exact: true }).click();
   await page.getByRole('dialog').getByRole('button', { name: /Лєна/ }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Продукти' }).click();
-  await page.getByRole('dialog').getByLabel('Сума, ₴').fill('15к');
-  await page.getByRole('dialog').getByLabel('Дата').fill('2026-11-07');
+  await page.getByRole('dialog').getByRole('button', { name: /Спільні витрати/ }).click();
+  await page.getByRole('dialog').getByLabel('Скільки, ₴').fill('15к');
+  await page.getByRole('dialog').getByLabel('Коли').fill('2026-11-07');
   await page.getByRole('dialog').getByRole('button', { name: /Додати 15 000/ }).click();
   await page.waitForTimeout(800);
 
   // 3) Ostap apartment in two installments
   for (const [amt, date] of [['25000', '2026-11-07'], ['12000', '2026-11-22']]) {
     await page.getByRole('button', { name: 'Внесок', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'Квартира' }).click();
-    await page.getByRole('dialog').getByLabel('Сума, ₴').fill(amt);
-    await page.getByRole('dialog').getByLabel('Дата').fill(date);
+    await page.getByRole('dialog').getByRole('button', { name: /Квартира/ }).click();
+    await page.getByRole('dialog').getByLabel('Скільки, ₴').fill(amt);
+    await page.getByRole('dialog').getByLabel('Коли').fill(date);
     await page.getByRole('dialog').getByRole('button', { name: /Додати/ }).click();
     await page.waitForTimeout(700);
   }
   // 4) Rent closed
-  await page.getByRole('button', { name: /Закрити Оренда/ }).click();
+  await page.getByRole('button', { name: /Закрити Спільні витрати/ }).first().click();
   await page.waitForTimeout(700);
-  // 5) Task
-  await page.getByLabel('Нова задача').fill('Купити ОВДП на $1 730');
-  await page.keyboard.press('Enter');
-  await page.waitForTimeout(800);
-
   await page.screenshot({ path: `${out}/02-filled.png`, fullPage: true });
   await page.getByRole('button', { name: 'Внесок', exact: true }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Пенсія' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: /Пенсія/ }).click();
   await page.waitForTimeout(300);
   await page.screenshot({ path: `${out}/03-dialog.png` });
   await page.keyboard.press('Escape');
@@ -54,8 +49,6 @@ const out = process.argv[2];
   await mobile.waitForSelector('[data-testid=column-ostap]');
   await mobile.screenshot({ path: `${out}/04-mobile.png`, fullPage: true });
 
-  const hero = await page.locator('text=Закрито за листопад').locator('..').innerText();
-  console.log('HERO:', hero.replace(/\s+/g, ' '));
-  console.log('ERRORS:', JSON.stringify(errors));
+    console.log('ERRORS:', JSON.stringify(errors));
   await browser.close();
 })().catch(e => { console.error(e); process.exit(1); });

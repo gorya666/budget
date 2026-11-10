@@ -70,11 +70,17 @@ describe("plan items (the monthly todo list)", () => {
     }
   })
 
-  it("jar items per person sum to their top-up, and jars are fully funded", () => {
+  it("one jar item and one zone item per person, equal to the sheet's top-up and zone", () => {
     for (const m of MEMBERS) {
-      expect(Math.abs(sum((i) => i.member === m && i.kind === "jar") - plan.shared.topUpJarsUah[m] * 100)).toBeLessThanOrEqual(3)
+      expect(sum((i) => i.member === m && i.kind === "jar")).toBe(Math.round(plan.shared.topUpJarsUah[m] * 100))
+      expect(plan.items.filter((i) => i.member === m).map((i) => i.key)).toEqual([
+        "savings.cushion",
+        "savings.apartment",
+        "savings.pension",
+        "jar.all",
+        "zone.all",
+      ])
     }
-    expect(sum((i) => i.kind === "jar")).toBe(Math.round(plan.shared.jarsUah * 100))
   })
 
   it("item ids are unique per person", () => {
@@ -114,7 +120,7 @@ describe("progress & settle-up", () => {
   })
 
   it("settle-up: when Olena carries everything, Ostap compensates his share", () => {
-    const s = settleUp(config, plan, [entry({ member: "olena", itemKey: "zone.groceries", amount: 10_000_00 })])
+    const s = settleUp(config, plan, [entry({ member: "olena", itemKey: "zone.all", amount: 10_000_00 })])
     expect(s).toEqual({ kind: "transfer", from: "ostap", to: "olena", amount: Math.round(10_000_00 * plan.incomeShare.ostap) })
   })
 

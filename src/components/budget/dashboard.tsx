@@ -7,13 +7,11 @@ import type { MemberId } from "@/lib/budget/config"
 import { formatUah } from "@/lib/budget/money"
 import { defaultPaidOn } from "@/lib/budget/month"
 import type { MonthPlan } from "@/lib/budget/plan"
-import type { Entry, ItemProgress, MonthProgress, Task } from "@/lib/budget/progress"
+import type { Entry, ItemProgress, MonthProgress } from "@/lib/budget/progress"
 import { EntryDialog, type EntryPrefill } from "./entry-dialog"
 import { Header } from "./header"
-import { Hero } from "./hero"
-import { PersonColumn } from "./person-column"
-import { SharedColumn } from "./shared-column"
-import { TimelineChart } from "./timeline-chart"
+import { PersonCard } from "./person-card"
+import { SharedGoal } from "./shared-goal"
 
 type Ctx = {
   month: string
@@ -36,13 +34,11 @@ export function Dashboard({
   month,
   plan,
   progress,
-  tasks,
   fxIsDefault,
 }: {
   month: string
   plan: MonthPlan
   progress: MonthProgress
-  tasks: Task[]
   fxIsDefault: boolean
 }) {
   const [dialog, setDialog] = useState<{ open: boolean; prefill?: EntryPrefill; n: number }>({ open: false, n: 0 })
@@ -93,17 +89,14 @@ export function Dashboard({
 
   return (
     <DashboardContext value={ctx}>
-      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-5 px-4 pt-4 pb-24 md:px-6 md:pt-6">
+      <div className="mx-auto flex w-full max-w-[1040px] flex-col gap-5 px-4 pt-4 pb-24 md:px-6 md:pt-8">
         <Header fxIsDefault={fxIsDefault} />
-        <section className="grid gap-5 lg:grid-cols-12">
-          <Hero className="lg:col-span-5" />
-          <TimelineChart className="lg:col-span-7" />
-        </section>
-        <section className="grid items-start gap-5 lg:grid-cols-[1fr_1.05fr_1fr]">
-          <PersonColumn member={people[0]} />
-          <SharedColumn tasks={tasks} className="order-last lg:order-none" />
-          <PersonColumn member={people[1]} />
-        </section>
+        <SharedGoal />
+        <div className="grid items-start gap-5 md:grid-cols-2">
+          {people.map((m) => (
+            <PersonCard key={m} member={m} />
+          ))}
+        </div>
       </div>
       <EntryDialog key={dialog.n} open={dialog.open} prefill={dialog.prefill} onOpenChange={(open) => setDialog((d) => ({ ...d, open }))} />
     </DashboardContext>

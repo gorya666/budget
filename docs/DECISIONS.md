@@ -14,3 +14,5 @@ Taken autonomously; veto any by leaving a comment or editing here.
 | 8 | 2026-11-10 | shadcn on base-ui, NumberFlow, motion, Sonner, recharts. | Picked via `pick-ui-library` skill at owner's request. |
 | 9 | 2026-11-10 | Display name «Лєна», initials О / Л. | Both names start with «О». Change in `src/lib/budget/config.ts`. |
 | 10 | 2026-11-10 | Settle-up («хто кому компенсує») shown live from current entries, ±500 ₴ = even. | Same rule as sheet's «Факт» tab. |
+| 11 | 2026-11-10 | Supabase tables need explicit `grant ... to service_role` (new projects no longer auto-grant). Migration 0002. | Prod crashed with permission denied on first open. |
+| 12 | 2026-11-10 | Simplified screen after owner feedback: one shared goal + one card per person; jars and zone expenses collapsed to one row each; removed chart, center column, monthly tasks, entry chips. | Same numbers were shown 3–4 times. Tasks/chart can return as month history later. |

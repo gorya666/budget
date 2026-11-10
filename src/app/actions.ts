@@ -48,27 +48,6 @@ export async function setFx(input: { month: string; fx: number }) {
   done(m)
 }
 
-export async function addTask(input: { month: string; title: string; assignee: "ostap" | "olena" | null }) {
-  await guard()
-  const t = z.object({ month, title: z.string().trim().min(1).max(200), assignee: member.nullable() }).parse(input)
-  await repo().addTask(t)
-  done(t.month)
-}
-
-export async function toggleTask(input: { id: string; month: string; done: boolean }) {
-  await guard()
-  const t = z.object({ id: z.string().uuid(), month, done: z.boolean() }).parse(input)
-  await repo().setTaskDone(t.id, t.done)
-  done(t.month)
-}
-
-export async function deleteTask(input: { id: string; month: string }) {
-  await guard()
-  const t = z.object({ id: z.string().uuid(), month }).parse(input)
-  await repo().deleteTask(t.id)
-  done(t.month)
-}
-
 export async function login(_prev: { error?: string } | undefined, form: FormData) {
   const pass = String(form.get("passcode") ?? "")
   const expected = await expectedToken()

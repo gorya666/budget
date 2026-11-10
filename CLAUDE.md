@@ -29,11 +29,14 @@ with one or more contributions (e.g. from the 7th and 22nd paychecks).
 - Auth: one shared passcode (`APP_PASSCODE`) → httpOnly cookie.
 
 ## Design rules
+- **Show each fact once.** One shared goal on top; one card per person with five rows
+  (3 savings goals, «Банки», «Спільні витрати»). Entry history lives in the entry dialog.
+  Before adding UI, check the number isn't already visible elsewhere.
 - Light, black & white, playful: tilted avatars/badges (`tilt-l`, `tilt-r`).
 - Depth via `depth-*` utilities in `globals.css` (Campsite "shadows as borders");
   never plain `border` on raised elements. Buttons: `default` = ink, `outline` = surface.
 - Series identity: Ostap = `--ostap` (ink, solid), Lena = `--olena` (gray) + `stripes`
   texture / dashed line. Always pair with a legend or label — never color alone.
 - shadcn on **base-ui** (`style: base-nova`), `cn` from the `cn` package.
-  Library picks follow `.agents/skills/pick-ui-library` (NumberFlow, motion, Sonner, recharts).
+  Library picks follow `.agents/skills/pick-ui-library` (NumberFlow, motion, Sonner; recharts when charts return).
 - UI copy in Ukrainian.
